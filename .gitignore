@@ -1,0 +1,12 @@
+# Ignore config files with sensitive information
+config.py
+
+# Ignore environment-specific files
+.env
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore any other files or directories that are specific to your project setup
+# Add other files or directories as needed
