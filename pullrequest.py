@@ -21,8 +21,8 @@ def gamespull():
         }
     )
     gamejson = gamedata.json();
-    gamecsv = pd.read_json(gamejson, convert_dates = True)
-    return gamecsv
+    gamesdf = pd.read_json(gamejson, convert_dates = True)
+    return gamesdf
 
 # pull the genres and their identifiers (already in postgres)
 def genrepull():
@@ -36,9 +36,15 @@ def genrepull():
     return genrecsv
 
 # post the request, create csv, and push the data to postgres
+
+# to add: schema check prior to push
+
+#### upsert to handle double entries
 def fetch():
     if requests.status_code == 200:
         curweekgames = gamespull()
+        # schema check here potentially
+        # ex. pull row, dtypes, check dtypes. if not equal no push, alert (email?)
         curweekgames.to_sql('games', engine.engine, if_exists = 'append', index = False)
     else:
         print('Failed to fetch data from the API')
